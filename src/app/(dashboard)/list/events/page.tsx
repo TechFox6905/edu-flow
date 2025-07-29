@@ -2,9 +2,9 @@ import FormModal from "@/components/FormModal";
 import Pagination from "@/components/Pagination";
 import Table from "@/components/Table";
 import TableSearch from "@/components/TableSearch";
-import { eventsData, role } from "@/lib/data";
 import { prisma } from "@/lib/prisma";
 import { ITEMS_PER_PAGE } from "@/lib/setting";
+import { currentUserId, role } from "@/lib/utils";
 import { Class, Event, Prisma } from "@prisma/client";
 import Image from "next/legacy/image";
 
@@ -34,10 +34,11 @@ const columns = [
     accessor: "endTime",
     className: "hidden md:table-cell",
   },
-  {
+  ...(role === 'admin' ? [{
     header: "Actions",
     accessor: "action",
-  },
+  }] : []
+  ),
 ];
 
 const renderRow = (item: EventList) => (
@@ -46,7 +47,7 @@ const renderRow = (item: EventList) => (
     className="border-b border-gray-200 even:bg-slate-50 text-sm hover:bg-lamaPurpleLight"
   >
     <td className="flex items-center gap-4 p-4">{item.title}</td>
-    <td>{item.class.name}</td>
+    <td>{item.class?.name || "-"}</td>
     <td className="hidden md:table-cell">{new Intl.DateTimeFormat("en-US").format(item.startTime)}</td>
     <td className="hidden md:table-cell">{item.startTime.toLocaleTimeString("en-US", {
       hour:"2-digit",
@@ -97,6 +98,21 @@ const EventListPage = async ({
       }
     }
   }
+
+  // ROLE CONDITIONS
+
+  const roleConditions = {
+    teacher: { lessons: { some: { teacherId: currentUserId! } } },
+    student: { students: { some: { id: currentUserId! } } },
+    parent: { students: { some: { parentId: currentUserId! } } },
+  };
+
+  query.OR = [
+    { classId: null },
+    {
+      class: roleConditions[role as keyof typeof roleConditions] || {},
+    },
+  ];
 
   const [data, count] = await prisma.$transaction([
     prisma.event.findMany({
