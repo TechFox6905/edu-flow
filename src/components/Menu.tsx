@@ -1,4 +1,4 @@
-import { role } from "@/lib/data";
+import { role } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -126,7 +126,7 @@ const Menu = () => {
             {i.title}
           </span>
           {i.items.map((item) => {
-            if (item.visible.includes(role)) {
+            if (item.visible.includes(role || "undefined")) {
               return (
                 <Link
                   href={item.href}
