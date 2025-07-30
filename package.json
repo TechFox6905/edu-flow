@@ -11,7 +11,7 @@
   "dependencies": {
     "@clerk/elements": "^0.23.46",
     "@clerk/nextjs": "^6.27.1",
-    "@hookform/resolvers": "^5.2.0",
+    "@hookform/resolvers": "^5.2.1",
     "@prisma/client": "^6.12.0",
     "@tailwindcss/postcss": "^4.1.11",
     "@types/react-big-calendar": "^1.16.2",
@@ -22,6 +22,7 @@
     "react-calendar": "^6.0.0",
     "react-dom": "^19",
     "react-hook-form": "^7.61.1",
+    "react-toastify": "^11.0.5",
     "recharts": "^3.1.0",
     "ts-node": "^10.9.2",
     "zod": "^4.0.10"
