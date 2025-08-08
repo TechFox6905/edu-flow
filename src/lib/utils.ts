@@ -1,11 +1,26 @@
 import { auth } from "@clerk/nextjs/server";
 
-const { userId, sessionClaims } = await auth();
-export const role = (sessionClaims?.metadata as { role?: string })?.role;
-if (!userId) {
-  throw new Error("User not authenticated");
+export async function getUserAuth() {
+  const { userId, sessionClaims } = await auth();
+  const role = (sessionClaims?.metadata as { role?: string })?.role;
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+
+  return { userId, role };
 }
-export const currentUserId = userId;
+
+// Export individual functions for components that need them
+export async function currentUserId() {
+  const { userId } = await getUserAuth();
+  return userId;
+}
+
+export async function role() {
+  const { role } = await getUserAuth();
+  return role;
+}
 
 const getLatestMonday = (): Date => {
   const today = new Date();
