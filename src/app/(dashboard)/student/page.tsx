@@ -5,10 +5,12 @@ import { prisma } from "@/lib/prisma";
 import { currentUserId } from "@/lib/utils";
 
 const StudentPage = async () => {
+  const userId = await currentUserId();
+  
   const classItem = await prisma.class.findMany({
     where: {
       students: {
-        some: { id: currentUserId!},
+        some: { id: userId!},
       }
     }
     });
