@@ -132,8 +132,8 @@ export const deleteClass = async (
 
     // revalidatePath("/list/class");
     return { success: true, error: false };
-  } catch (err) {
-    console.log(err);
+  } catch (error: any) {
+    console.error("Clerk error:", error?.errors || error?.message || error);
     return { success: false, error: true };
   }
 };
@@ -149,6 +149,7 @@ export const createTeacher = async (
       password: data.password,
       firstName: data.name,
       lastName: data.surname,
+      emailAddress: data.email ? [data.email] : undefined,
       publicMetadata:{role:"teacher"}
     });
 
@@ -175,8 +176,8 @@ export const createTeacher = async (
 
     // revalidatePath("/list/teachers");
     return { success: true, error: false };
-  } catch (err) {
-    console.log(err);
+  } catch (error: any) {
+    console.error("Clerk error:", error?.errors || error?.message || error);
     return { success: false, error: true };
   }
 };
@@ -222,8 +223,8 @@ export const updateTeacher = async (
     });
     // revalidatePath("/list/teachers");
     return { success: true, error: false };
-  } catch (err) {
-    console.log(err);
+  } catch (error: any) {
+    console.error("Clerk error:", error?.errors || error?.message || error);
     return { success: false, error: true };
   }
 };
@@ -245,8 +246,8 @@ export const deleteTeacher = async (
 
     // revalidatePath("/list/teachers");
     return { success: true, error: false };
-  } catch (err) {
-    console.log(err);
+  } catch (error: any) {
+    console.error("Clerk error:", error?.errors || error?.message || error);
     return { success: false, error: true };
   }
 };
@@ -272,6 +273,7 @@ export const createStudent = async (
       password: data.password,
       firstName: data.name,
       lastName: data.surname,
+      emailAddress: data.email ? [data.email] : undefined,
       publicMetadata:{role:"student"}
     });
 
@@ -296,8 +298,8 @@ export const createStudent = async (
 
     // revalidatePath("/list/students");
     return { success: true, error: false };
-  } catch (err) {
-    console.log(err);
+  } catch (error: any) {
+    console.error("Clerk error:", error?.errors || error?.message || error);
     return { success: false, error: true };
   }
 };
@@ -341,8 +343,8 @@ export const updateStudent = async (
     });
     // revalidatePath("/list/students");
     return { success: true, error: false };
-  } catch (err) {
-    console.log(err);
+  } catch (error: any) {
+    console.error("Clerk error:", error?.errors || error?.message || error);
     return { success: false, error: true };
   }
 };
@@ -364,8 +366,8 @@ export const deleteStudent = async (
 
     // revalidatePath("/list/students");
     return { success: true, error: false };
-  } catch (err) {
-    console.log(err);
+  } catch (error: any) {
+    console.error("Clerk error:", error?.errors || error?.message || error);
     return { success: false, error: true };
   }
 };
@@ -402,8 +404,8 @@ export const createExam = async (
 
     // revalidatePath("/list/subjects");
     return { success: true, error: false };
-  } catch (err) {
-    console.log(err);
+  } catch (error: any) {
+    console.error("Clerk error:", error?.errors || error?.message || error);
     return { success: false, error: true };
   }
 };
@@ -443,8 +445,8 @@ export const updateExam = async (
 
     // revalidatePath("/list/subjects");
     return { success: true, error: false };
-  } catch (err) {
-    console.log(err);
+  } catch (error: any) {
+    console.error("Clerk error:", error?.errors || error?.message || error);
     return { success: false, error: true };
   }
 };
@@ -468,8 +470,8 @@ export const deleteExam = async (
 
     // revalidatePath("/list/subjects");
     return { success: true, error: false };
-  } catch (err) {
-    console.log(err);
+  } catch (error: any) {
+    console.error("Clerk error:", error?.errors || error?.message || error);
     return { success: false, error: true };
   }
 };
