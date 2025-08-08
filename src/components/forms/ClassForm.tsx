@@ -16,9 +16,10 @@ import {
   updateSubject,
 } from "@/lib/actions";
 import { useFormState } from "react-dom";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, startTransition, useActionState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
 
 const ClassForm = ({
   type,
@@ -31,17 +32,13 @@ const ClassForm = ({
   setOpen: Dispatch<SetStateAction<boolean>>;
   relatedData?: any;
 }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ClassSchema>({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(classSchema),
   });
 
   // AFTER REACT 19 IT'LL BE USEACTIONSTATE
 
-  const [state, formAction] = useFormState(
+  const [state, formAction] = useActionState(
     type === "create" ? createClass : updateClass,
     {
       success: false,
@@ -51,7 +48,9 @@ const ClassForm = ({
 
   const onSubmit = handleSubmit((data) => {
     console.log(data);
-    formAction(data);
+    startTransition(() => {
+          formAction(data);
+        });
   });
 
   const router = useRouter();
@@ -85,7 +84,7 @@ const ClassForm = ({
           name="capacity"
           defaultValue={data?.capacity}
           register={register}
-          error={errors?.capacity}
+          error={errors?.capacity as import("react-hook-form").FieldError | undefined}
         />
         {data && (
           <InputField
@@ -93,8 +92,8 @@ const ClassForm = ({
             name="id"
             defaultValue={data?.id}
             register={register}
-            error={errors?.id}
-            hidden
+            error={errors?.id as import("react-hook-form").FieldError | undefined}
+            type="hidden"
           />
         )}
         <div className="flex flex-col gap-2 w-full md:w-1/4">
@@ -102,7 +101,7 @@ const ClassForm = ({
           <select
             className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
             {...register("supervisorId")}
-            defaultValue={data?.teachers}
+            defaultValue={data?.supervisorId ?? ""}
           >
             {teachers.map(
               (teacher: { id: string; name: string; surname: string }) => (

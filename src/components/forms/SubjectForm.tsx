@@ -5,10 +5,10 @@ import { useForm } from "react-hook-form";
 import InputField from "../InputField";
 import { subjectSchema, SubjectSchema } from "@/lib/formValidationSchemas";
 import { createSubject, updateSubject } from "@/lib/actions";
-import { useFormState } from "react-dom";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useActionState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { startTransition } from 'react';
 
 const SubjectForm = ({
   type,
@@ -25,13 +25,13 @@ const SubjectForm = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SubjectSchema>({
+  } = useForm({
     resolver: zodResolver(subjectSchema),
   });
 
   // AFTER REACT 19 IT'LL BE USEACTIONSTATE
 
-  const [state, formAction] = useFormState(
+  const [state, formAction] = useActionState(
     type === "create" ? createSubject : updateSubject,
     {
       success: false,
@@ -41,7 +41,9 @@ const SubjectForm = ({
 
   const onSubmit = handleSubmit((data) => {
     console.log(data);
-    formAction(data);
+    startTransition(() => {
+      formAction(data);
+    });
   });
 
   const router = useRouter();
@@ -54,7 +56,7 @@ const SubjectForm = ({
     }
   }, [state, router, type, setOpen]);
 
-  const { teachers } = relatedData;
+  const teachers = relatedData?.teachers ?? [];
 
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
@@ -68,7 +70,7 @@ const SubjectForm = ({
           name="name"
           defaultValue={data?.name}
           register={register}
-          error={errors?.name}
+          error={errors?.name as import("react-hook-form").FieldError | undefined}
         />
         {data && (
           <InputField
@@ -76,7 +78,7 @@ const SubjectForm = ({
             name="id"
             defaultValue={data?.id}
             register={register}
-            error={errors?.id}
+            error={errors?.id as import("react-hook-form").FieldError | undefined}
             hidden
           />
         )}
@@ -98,7 +100,7 @@ const SubjectForm = ({
           </select>
           {errors.teachers?.message && (
             <p className="text-xs text-red-400">
-              {errors.teachers.message.toString()}
+              {(errors.teachers as import("react-hook-form").FieldError).message?.toString()}
             </p>
           )}
         </div>

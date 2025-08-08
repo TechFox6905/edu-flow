@@ -16,7 +16,7 @@ import {
   updateSubject,
 } from "@/lib/actions";
 import { useFormState } from "react-dom";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, startTransition, useActionState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
@@ -35,13 +35,13 @@ const ExamForm = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ExamSchema>({
+  } = useForm({
     resolver: zodResolver(examSchema),
   });
 
   // AFTER REACT 19 IT'LL BE USEACTIONSTATE
 
-  const [state, formAction] = useFormState(
+  const [state, formAction] = useActionState(
     type === "create" ? createExam : updateExam,
     {
       success: false,
@@ -51,7 +51,9 @@ const ExamForm = ({
 
   const onSubmit = handleSubmit((data) => {
     console.log(data);
-    formAction(data);
+    startTransition(() => {
+      formAction(data);
+    });
   });
 
   const router = useRouter();
@@ -78,14 +80,14 @@ const ExamForm = ({
           name="title"
           defaultValue={data?.title}
           register={register}
-          error={errors?.title}
+          error={errors?.title as import("react-hook-form").FieldError | undefined}
         />
         <InputField
           label="Start Date"
           name="startTime"
           defaultValue={data?.startTime}
           register={register}
-          error={errors?.startTime}
+          error={errors?.startTime as import("react-hook-form").FieldError | undefined}
           type="datetime-local"
         />
         <InputField
@@ -93,7 +95,7 @@ const ExamForm = ({
           name="endTime"
           defaultValue={data?.endTime}
           register={register}
-          error={errors?.endTime}
+          error={errors?.endTime as import("react-hook-form").FieldError | undefined}
           type="datetime-local"
         />
         {data && (
@@ -102,8 +104,8 @@ const ExamForm = ({
             name="id"
             defaultValue={data?.id}
             register={register}
-            error={errors?.id}
-            hidden
+            error={errors?.id as import("react-hook-form").FieldError | undefined}
+            type="hidden"
           />
         )}
         <div className="flex flex-col gap-2 w-full md:w-1/4">
