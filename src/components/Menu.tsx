@@ -117,7 +117,9 @@ const menuItems = [
   },
 ];
 
-const Menu = () => {
+const Menu = async () => {
+  const userRole = await role();
+  
   return (
     <div className="mt-4 text-sm">
       {menuItems.map((i) => (
@@ -126,7 +128,7 @@ const Menu = () => {
             {i.title}
           </span>
           {i.items.map((item) => {
-            if (item.visible.includes(role || "undefined")) {
+            if (item.visible.includes(userRole || "undefined")) {
               return (
                 <Link
                   href={item.href}

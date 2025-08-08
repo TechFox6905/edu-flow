@@ -2,21 +2,23 @@ import { prisma } from "@/lib/prisma";
 import { currentUserId, role } from "@/lib/utils";
 
 const Announcements = async () => {
+  const userId = await currentUserId();
+  const userRole = await role();
 
   const roleConditions = {
-    teacher: { lessons: { some: { teacherId: currentUserId! } } },
-    student: { students: { some: { id: currentUserId! } } },
-    parent: { students: { some: { parentId: currentUserId! } } },
+    teacher: { lessons: { some: { teacherId: userId! } } },
+    student: { students: { some: { id: userId! } } },
+    parent: { students: { some: { parentId: userId! } } },
   };
 
   const data = await prisma.announcement.findMany({
     take: 3,
     orderBy: { date: "desc" },
     where: {
-      ...(role !== "admin" && {
+      ...(userRole !== "admin" && {
         OR: [
           { classId: null },
-          { class: roleConditions[role as keyof typeof roleConditions] || {} },
+          { class: roleConditions[userRole as keyof typeof roleConditions] || {} },
         ],
       }),
     },
