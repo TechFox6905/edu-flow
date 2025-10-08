@@ -4,9 +4,6 @@ A comprehensive educational platform designed to simplify course management, enh
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue) ![License](https://img.shields.io/badge/license-Unlicensed-red) ![Stars](https://img.shields.io/github/stars/TechFox6905/edu-flow?style=social) ![Forks](https://img.shields.io/github/forks/TechFox6905/edu-flow?style=social)
 
-![EduFlow Preview Image Placeholder](/preview_example.png)
-*A preview of the EduFlow dashboard.*
-
 
 ## ✨ Features
 
@@ -169,44 +166,6 @@ EduFlow is continuously evolving. Here's a glimpse into our planned future devel
     *   API for third-party integrations.
     *   Mobile application development.
     *   Advanced analytics and reporting tools.
-
-
-## 🤝 Contribution Guidelines
-
-We welcome contributions to EduFlow! To ensure a smooth collaboration process, please adhere to the following guidelines:
-
-### Code Style
-
-*   Follow the ESLint and Prettier configurations provided in the `.eslintrc.json` and `prettier.config.mjs` files.
-*   Use TypeScript for all new features and bug fixes to leverage type safety.
-*   Write clear, concise, and well-commented code.
-
-### Branch Naming Conventions
-
-*   Use descriptive branch names following a `type/description` format:
-    *   `feat/add-course-creation` (for new features)
-    *   `fix/calendar-bug-date-display` (for bug fixes)
-    *   `docs/update-installation-guide` (for documentation updates)
-    *   `refactor/simplify-auth-logic` (for code refactoring)
-
-### Pull Request (PR) Process
-
-1.  **Fork the repository** and clone your fork.
-2.  **Create a new branch** from `main` (or `develop` if it exists).
-3.  **Make your changes**, ensuring they align with the project's goals and code style.
-4.  **Test your changes thoroughly** to prevent regressions.
-5.  **Commit your changes** with clear and descriptive commit messages.
-6.  **Push your branch** to your forked repository.
-7.  **Open a Pull Request** to the `main` branch of the original repository.
-    *   Provide a clear title and detailed description of your changes.
-    *   Reference any relevant issues.
-    *   Ensure all automated checks (if any) pass.
-
-### Testing Requirements
-
-*   All new features should be accompanied by relevant unit or integration tests.
-*   Existing tests should pass without errors.
-*   Run `npm test` (or `yarn test`) locally before submitting a PR.
 
 
 ## 📜 License Information
