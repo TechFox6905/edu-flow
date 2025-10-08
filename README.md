@@ -146,9 +146,6 @@ export default async function DashboardPage() {
 }
 ```
 
-![EduFlow Dashboard Screenshot Placeholder](/dashboard_screenshot.png)
-*A placeholder screenshot showing the main dashboard with upcoming events.*
-
 
 ## 🛣️ Project Roadmap
 
@@ -173,5 +170,3 @@ EduFlow is continuously evolving. Here's a glimpse into our planned future devel
 This project is currently **Unlicensed**.
 
 This means that all rights are reserved by the copyright holder(s) and no permission is granted for use, modification, or distribution. If you wish to use, modify, or distribute this software, you must obtain explicit permission from the copyright holder(s) (TechFox6905).
-
-**Note**: It is highly recommended to choose an open-source license (e.g., MIT, Apache 2.0, GPL) for collaborative projects to clearly define how others can use and contribute to your work.
